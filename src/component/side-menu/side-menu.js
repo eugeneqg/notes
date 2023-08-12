@@ -33,8 +33,8 @@ const SideMenu = ({setModalOpen, setData}) => {
             <div className="buttons">
                 <div className="menu-buttons">
                     <NavLink to={"/all"}><MenuButton name={"All notes"}/></NavLink>
-                    <NavLink to={"important"}><MenuButton name={"Important"}/></NavLink>
-                    <NavLink to={"deleted"}><MenuButton name={"Recently deleted"}/></NavLink>
+                    <NavLink to={"/important"}><MenuButton name={"Important"}/></NavLink>
+                    <NavLink to={"/deleted"}><MenuButton name={"Recently deleted"}/></NavLink>
                 </div>
                     <CreateButton func={handler} name={"New note"}/>
             </div>

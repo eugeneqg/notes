@@ -8,6 +8,7 @@ import RecentlyDeleted from "../pages/recently-deleted-page/recently-deleted-pag
 import React from "react";
 import CreateModal from "../component/create-modal/create-modal";
 import LoginPage from "../pages/login-page/login-page";
+import NotePage from "../pages/note-page/note-page";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, collection, db } from "../firebase";
 import { query, where, getDocs } from "firebase/firestore";
@@ -19,6 +20,7 @@ function App() {
   const [isModalOpen, setModalOpen] = React.useState(false);
   const [user, loading, error] = useAuthState(auth);
   const [data, setData] = React.useState([]);
+  const [isDataLoaded, setDataLoaded] = React.useState(false)
 
   React.useEffect(() => {
     isModalOpen ? document.querySelector("body").style.overflow = "hidden" : document.querySelector("body").style.overflow = "auto";
@@ -30,8 +32,11 @@ function App() {
         const q = query(notesRef, where("uid", "==", `${user.uid}`));
 
         const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(i => filteredNotes.push(i.data()));
+        querySnapshot.forEach((i) => {
+          filteredNotes.push({...i.data(), noteId: i.id});
+        });
         setData(filteredNotes);
+        setDataLoaded(true)
       })();
 
     } else {
@@ -56,9 +61,10 @@ function App() {
         <Col className="p-0">
           <Routes>
             <Route path="/" element={<LoginPage/>}/>
-            <Route path="/all" element={<MainPage data={data}/>}/>
+            <Route path="/all" element={<MainPage data={data} isDataLoaded={isDataLoaded}/>}/>
             <Route path="/important" element={<ImportantPage data={data}/>}/>
             <Route path="/deleted" element={<RecentlyDeleted/>}/>
+            <Route path="/note" element={<NotePage />}/>
           </Routes> 
         </Col>
       </Row>

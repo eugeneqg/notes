@@ -27,7 +27,6 @@ const CreateModal = ({setModalOpen}) => {
         try {
             const docRef = await addDoc(collection(db, "notes"), {
                 uid: user.uid,
-                noteId: Date.now(),
                 title: title,
                 text: text,
                 important: isImportant,

@@ -1,5 +1,6 @@
 import "./important-page.sass";
 import { Row } from "react-bootstrap";
+import Note from "../../component/small-components/note/note";
 
 const ImportantPage = ({data}) => {
 
@@ -15,7 +16,7 @@ const ImportantPage = ({data}) => {
         } else {
             return filtered.map(note => {
                 return (
-                    <p>{note.text}</p>
+                    <Note title={note.title} text={note.text}/>
                 )
             })
         }
@@ -23,9 +24,11 @@ const ImportantPage = ({data}) => {
 
     return (
         <div className="main-part">
-            <Row className="">
+            <Row >
                 <h1>Important</h1>
-                {showData()}
+                <div className="notes-container">
+                    {showData()}
+                </div>
             </Row>
         </div>
     )
