@@ -22,7 +22,11 @@ const LoginPage = () => {
         if (loading) {
           return;
         }
-        if (user) navigate("/all");
+        if (user) {
+            navigate("/all");
+        } else {
+            navigate("/")
+        }
       }, [user, loading, navigate, isNew]);
 
     return (
