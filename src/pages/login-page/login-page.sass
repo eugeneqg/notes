@@ -2,6 +2,7 @@
     
 .login-page
     display: flex
+    flex-wrap: wrap
     width: 100%
     height: 100vh
 
@@ -31,3 +32,36 @@
 
     border-radius: 8px
     border: 2px solid rgba(0, 0, 0, 0.10)
+
+.login-page_buttons
+    position: relative
+
+    background-color: $blue
+    border-radius: 8px
+    height: 40px
+
+.slider-button
+    z-index: 2
+    color: white
+    width: 50%
+    height: 100%
+
+    display: flex
+    align-items: center
+    justify-content: center
+
+    p
+        margin: 0px
+
+.slider
+    position: absolute
+    top: 0px
+    left: 0%
+
+    width: 50%
+    height: 100%
+    border-radius: 8px
+
+    background-color: $dark-blue
+
+    transition: all 0.2s linear

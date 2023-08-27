@@ -1,22 +1,31 @@
 import "./important-page.sass";
 import { Row } from "react-bootstrap";
+import React from "react";
 import Note from "../../component/small-components/note/note";
 
 const ImportantPage = ({data}) => {
 
+    const [filteredData, setFilteredData] = React.useState([]);
+
+    React.useEffect(() => {
+
+        (async () => {
+            const filtered = data.filter(note => note.important === true);
+            setFilteredData(filtered);
+        })()
+
+    }, [data]);
+
     const showData = () => {
 
-        const filtered = data.filter(note => note.important === true);
-        console.log(filtered)
-
-        if (!filtered.length) {
+        if (!filteredData.length) {
             return (
                 <p>No notes</p>
             )
         } else {
-            return filtered.map(note => {
+            return filteredData.map(note => {
                 return (
-                    <Note title={note.title} text={note.text}/>
+                    <Note title={note.title} key={note.id} text={note.text}/>
                 )
             })
         }
@@ -25,7 +34,7 @@ const ImportantPage = ({data}) => {
     return (
         <div className="main-part">
             <Row >
-                <h1>Important</h1>
+                <h1 className="margin-h1">Important</h1>
                 <div className="notes-container">
                     {showData()}
                 </div>

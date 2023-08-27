@@ -3,14 +3,14 @@ import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPasswor
 import { getFirestore, query, getDocs, collection, where, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAshcSmLMWX6PfrfyJ65cWaWvSZoHKRxXk",
-    authDomain: "notes-app-qg.firebaseapp.com",
-    projectId: "notes-app-qg",
-    storageBucket: "notes-app-qg.appspot.com",
-    messagingSenderId: "88949899381",
-    appId: "1:88949899381:web:b4657285febbfaad10f83c",
-    measurementId: "G-4P6LFV48R2"
-  };
+  apiKey: "AIzaSyDIN--WEbnDASyVR0Ytd3iHm6Yd_X4t-3Q",
+  authDomain: "react-note-app-qg.firebaseapp.com",
+  projectId: "react-note-app-qg",
+  storageBucket: "react-note-app-qg.appspot.com",
+  messagingSenderId: "304377943595",
+  appId: "1:304377943595:web:0358172d683aabf8f5fc6e",
+  measurementId: "G-JS4W6D0B1K"
+};
 
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app);

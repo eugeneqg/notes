@@ -1,24 +1,24 @@
-import "./folder-page.sass";
-import React from "react";
+import "./search-page.sass";
 import { Row } from "react-bootstrap";
+import React from "react";
 import Note from "../../component/small-components/note/note";
 
-const FolderPage = ({folderData, data, setPage, deleteNote}) => {
+const SearchPage = ({data, input}) => {
 
     const [filteredData, setFilteredData] = React.useState([]);
 
     React.useEffect(() => {
-        setPage(folderData.name);
 
         (async () => {
-            const filtered = await data.filter(note => note.important === true);
-            setFilteredData(filtered)
-            })()
-    }, [data])
+            if (input.current.length !== 0) {
+                const filtered = data.filter(note => note.text.toLowerCase().includes(input.current.toLowerCase()) || note.title.toLowerCase().includes(input.current.toLowerCase()));
+                await setFilteredData(filtered);
+            }
+        })();
+
+    }, [data]);
 
     const showData = () => {
-
-        const filteredData = data.filter(note => note.folder === folderData.name);
 
         if (!filteredData.length) {
             return (
@@ -27,7 +27,7 @@ const FolderPage = ({folderData, data, setPage, deleteNote}) => {
         } else {
             return filteredData.map(note => {
                 return (
-                    <Note key={note.noteId} title={note.title} text={note.text} id={note.noteId} folder={note.folder} deleteNote={deleteNote}/>
+                    <Note title={note.title} key={note.id} text={note.text}/>
                 )
             })
         }
@@ -36,7 +36,7 @@ const FolderPage = ({folderData, data, setPage, deleteNote}) => {
     return (
         <div className="main-part">
             <Row >
-                <h1 className="margin-h1">{folderData.name}</h1>
+                <h1 className="margin-h1">Search</h1>
                 <div className="notes-container">
                     {showData()}
                 </div>
@@ -45,4 +45,4 @@ const FolderPage = ({folderData, data, setPage, deleteNote}) => {
     )
 }
 
-export default FolderPage;
+export default SearchPage;

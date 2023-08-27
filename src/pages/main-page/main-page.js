@@ -4,7 +4,7 @@ import React from "react";
 import Note from "../../component/small-components/note/note";
 import Loader from "../../component/small-components/loader/loader";
 
-const MainPage = ({data, isDataLoaded}) => {
+const MainPage = ({data, isDataLoaded, deleteNote, updatedNotes, setUpdatedNotes}) => {
 
     const showData = () => {
         if (!isDataLoaded) {
@@ -18,7 +18,7 @@ const MainPage = ({data, isDataLoaded}) => {
                     {
                         data.map(note => {
                             return (
-                                <Note title={note.title} text={note.text}/>
+                                <Note key={note.noteId} title={note.title} text={note.text} id={note.noteId} deleteNote={deleteNote}/>
                             )
                         })
                     }
