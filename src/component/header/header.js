@@ -16,9 +16,9 @@ const Header = ({logOut, input}) => {
 
     return (
         <Navbar className="header" expand="lg">
-                <Navbar.Brand href="/">NOTEZ</Navbar.Brand>
-                <input onChange={handler} value={input.current} className="me-5" placeholder="Search"></input>
-                <BoxArrowLeft size={24} onClick={logOut}/>
+                <Navbar.Brand style={{color: "white"}} href="/">NOTEZ</Navbar.Brand>
+                <input onChange={handler} value={input.current} className="me-5 search" placeholder="Search"></input>
+                <BoxArrowLeft color="white" size={24} onClick={logOut}/>
         </Navbar>
     )
 }

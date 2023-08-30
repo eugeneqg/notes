@@ -1,5 +1,5 @@
 import "./search-page.sass";
-import { Row } from "react-bootstrap";
+import { Row, Spinner } from "react-bootstrap";
 import React from "react";
 import Note from "../../component/small-components/note/note";
 
@@ -10,13 +10,14 @@ const SearchPage = ({data, input}) => {
     React.useEffect(() => {
 
         (async () => {
+
             if (input.current.length !== 0) {
-                const filtered = data.filter(note => note.text.toLowerCase().includes(input.current.toLowerCase()) || note.title.toLowerCase().includes(input.current.toLowerCase()));
+                const filtered = await data.filter(note => note.text.toLowerCase().includes(input.current.toLowerCase()) || note.title.toLowerCase().includes(input.current.toLowerCase()));
                 await setFilteredData(filtered);
             }
         })();
 
-    }, [data]);
+    }, [data, input]);
 
     const showData = () => {
 

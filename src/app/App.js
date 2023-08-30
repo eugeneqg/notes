@@ -17,6 +17,7 @@ import FolderPage from "../pages/folder-page/folder-page";
 import { Timestamp } from "firebase/firestore";
 import Header from "../component/header/header";
 import SearchPage from "../pages/search-page/search-page";
+import Loader from "../component/small-components/loader/loader";
 
 function App() {
 
@@ -66,11 +67,11 @@ function App() {
       redirect("/");
     }
 
-  }, [isModalOpen, user, updatedComponent, ref.current]);
+  }, [isModalOpen, user, updatedComponent, ref.current, page]);
 
   if (loading) {
     return (
-      <p>loading</p>
+      <Loader />
     )
   }
 
@@ -86,13 +87,16 @@ function App() {
     };
   }
 
-  const updateNote = async (id, title, text, folder) => {
+  const updateNote = async (id, title, text, folder = "", important, deleted) => {
     const ref = doc(db, "notes", id);
     setUpdatedComponent(!updatedComponent);
+    console.log(id, title, text, folder, important)
     await updateDoc(ref, {
       title: title,
       text: text,
-      folder: folder
+      folder: folder,
+      important: important,
+      deleted: deleted
     });
   }
 
@@ -112,12 +116,11 @@ function App() {
 
 }
 
-
   return (
     <div>
-      {isModalOpen ? <CreateModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} page={page}/> : null}
+      {isModalOpen ? <CreateModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} page={page} userFolders={userFolders}/> : null}
       {user? <Fab fab="fab" name={"New note"} func={handler}/> : null}
-      <Header data={data} setData={setData} logOut={logOut} input={ref}/>
+      {user? <Header data={data} setData={setData} logOut={logOut} input={ref}/> : null}
       <Row className="gx-0">
         <Col md={user ? 2 : 4} className="p-0">
           <SideMenu logOut={logOut} setModalOpen={setModalOpen} setData={setData} userFolders={userFolders} updatedFolders={updatedComponent} setUpdatedFolders={setUpdatedComponent} deleteFolder={deleteFolder} areFoldersLoaded={areFoldersLoaded}/>
@@ -125,14 +128,14 @@ function App() {
         <Col className="p-0">
           <Routes>
             <Route path="/" element={<LoginPage/>}/>
-            <Route path="/all" element={<MainPage data={data} isDataLoaded={isDataLoaded} deleteNote={deleteNote} updatedNotes={updatedComponent} setUpdatedNotes={setUpdatedComponent}/>}/>
-            <Route path="/important" element={<ImportantPage data={data} deleteNote={deleteNote}/>}/>
-            <Route path="/deleted" element={<RecentlyDeleted/>}/>
+            <Route path="/all" element={<MainPage data={data} isDataLoaded={isDataLoaded} deleteNote={deleteNote} updatedNotes={updatedComponent} setUpdatedNotes={setUpdatedComponent} updateNote={updateNote} setPage={setPage}/>}/>
+            <Route path="/important" element={<ImportantPage data={data} updateNote={updateNote} deleteNote={deleteNote}/>}/>
+            <Route path="/deleted" element={<RecentlyDeleted data={data} updateNote={updateNote} deleteNote={deleteNote}/>}/>
             <Route path="/note" element={<NotePage updateNote={updateNote} deleteNote={deleteNote} userFolders={userFolders} areFoldersLoaded={areFoldersLoaded}/>}/>
             <Route path="/search" element={<SearchPage data={data} deleteNote={deleteNote} input={ref}/>} />
             {userFolders.map(folder => {
               return (
-                <Route path={folder.name} key={folder.name} element={<FolderPage folderData={folder} data={data} setPage={setPage} deleteNote={deleteNote}/>}/>
+                <Route path={folder.name} key={folder.name} element={<FolderPage folderData={folder} data={data} setPage={setPage} updateNote={updateNote} deleteNote={deleteNote}/>}/>
               )
             })}
             <Route to="*" element={<MainPage data={data} isDataLoaded={isDataLoaded} deleteNote={deleteNote} updatedNotes={updatedComponent} setUpdatedNotes={setUpdatedComponent}/>} />

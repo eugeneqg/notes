@@ -11,10 +11,17 @@ const MenuButton = ({name, custom, id, deleteFolder}) => {
     )
 }
 
-const CreateButton = ({fab, func, name, isDisabled, bgColor, textColor}) => {
+const CreateButton = ({func, name, isDisabled, bgColor, textColor}) => {
 
     return (
         <button style={{backgroundColor: `${bgColor}`, color: `${textColor}`}} onClick={func} className="create-button" disabled={isDisabled}>{name}</button>
+    )
+}
+
+const TextButton = ({func, text}) => {
+    
+    return (
+        <button className="text-button" onClick={func}>{<Trash />} {text}</button>
     )
 }
 
@@ -25,4 +32,4 @@ const Fab = ({fab, func, name}) => {
     )
 }
 
-export {MenuButton, CreateButton, Fab};
+export {MenuButton, CreateButton, Fab, TextButton};

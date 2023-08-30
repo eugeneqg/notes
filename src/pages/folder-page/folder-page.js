@@ -3,22 +3,17 @@ import React from "react";
 import { Row } from "react-bootstrap";
 import Note from "../../component/small-components/note/note";
 
-const FolderPage = ({folderData, data, setPage, deleteNote}) => {
+const FolderPage = ({folderData, data, setPage, updateNote, deleteNote}) => {
 
     const [filteredData, setFilteredData] = React.useState([]);
 
     React.useEffect(() => {
         setPage(folderData.name);
-
-        (async () => {
-            const filtered = await data.filter(note => note.important === true);
-            setFilteredData(filtered)
-            })()
-    }, [data])
+    }, [setPage, data]);
 
     const showData = () => {
 
-        const filteredData = data.filter(note => note.folder === folderData.name);
+        const filteredData = data.filter(note => note.folder === folderData.name && note.deleted !== true);
 
         if (!filteredData.length) {
             return (
@@ -27,7 +22,7 @@ const FolderPage = ({folderData, data, setPage, deleteNote}) => {
         } else {
             return filteredData.map(note => {
                 return (
-                    <Note key={note.noteId} title={note.title} text={note.text} id={note.noteId} folder={note.folder} deleteNote={deleteNote}/>
+                    <Note key={note.noteId} title={note.title} text={note.text} id={note.noteId} folder={note.folder} important={note.important} deleted={note.deleted} updateNote={updateNote} deleteNote={deleteNote}/>
                 )
             })
         }

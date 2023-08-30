@@ -4,7 +4,17 @@ import React from "react";
 import Note from "../../component/small-components/note/note";
 import Loader from "../../component/small-components/loader/loader";
 
-const MainPage = ({data, isDataLoaded, deleteNote, updatedNotes, setUpdatedNotes}) => {
+const MainPage = ({data, isDataLoaded, updateNote, deleteNote, updatedNotes, setUpdatedNotes, setPage}) => {
+
+    const [filteredData, setFilteredData] = React.useState([]);
+
+    React.useEffect(() => {
+        setPage("");
+        (async () => {
+            const filtered = data.filter(note => note.deleted !== true);
+            setFilteredData(filtered);
+        })()
+    }, [setPage, data]);
 
     const showData = () => {
         if (!isDataLoaded) {
@@ -12,13 +22,13 @@ const MainPage = ({data, isDataLoaded, deleteNote, updatedNotes, setUpdatedNotes
                 <Loader />
             )
 
-        } else if (data.length !== 0) {
+        } else if (filteredData.length !== 0) {
             return (
                 <div className="notes-container">
                     {
-                        data.map(note => {
+                        filteredData.map(note => {
                             return (
-                                <Note key={note.noteId} title={note.title} text={note.text} id={note.noteId} deleteNote={deleteNote}/>
+                                <Note key={note.noteId} title={note.title} text={note.text} id={note.noteId} folder={note.folder} deleteNote={deleteNote} important={note.important} updateNote={updateNote} deleted={note.deleted}/>
                             )
                         })
                     }

@@ -3,8 +3,6 @@ import "./loader.sass";
 
 const Loader = ({size}) => {
 
-    console.log(size)
-
     return (
         <div className="loader">
             <GridLoader size={size} color={"#3884AE"}/>

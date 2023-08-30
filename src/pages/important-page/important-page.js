@@ -3,7 +3,7 @@ import { Row } from "react-bootstrap";
 import React from "react";
 import Note from "../../component/small-components/note/note";
 
-const ImportantPage = ({data}) => {
+const ImportantPage = ({data, updateNote}) => {
 
     const [filteredData, setFilteredData] = React.useState([]);
 
@@ -25,7 +25,7 @@ const ImportantPage = ({data}) => {
         } else {
             return filteredData.map(note => {
                 return (
-                    <Note title={note.title} key={note.id} text={note.text}/>
+                    <Note title={note.title} key={note.id} text={note.text} important={note.important} id={note.noteId} updateNote={updateNote} deleted={note.deleted}/>
                 )
             })
         }

@@ -7,12 +7,13 @@ import { db } from "../../firebase";
 import React from "react";
 import { auth } from "../../firebase";
 
-const CreateModal = ({isModalOpen, setModalOpen, page}) => {
+const CreateModal = ({isModalOpen, setModalOpen, page, userFolders, setPage}) => {
 
     const [title, setTitle] = React.useState("");
     const [text, setText] = React.useState("");
     const [isDisabled, setIsDisabled] = React.useState(true);
     const [isImportant, setImportant] = React.useState(false);
+    const [folder, setFolder] = React.useState(page);
     const [user] = useAuthState(auth);
 
     const ref = React.useRef();
@@ -35,12 +36,29 @@ const CreateModal = ({isModalOpen, setModalOpen, page}) => {
                 title: title,
                 text: text,
                 important: isImportant,
-                folder: page,
+                folder: page ? page : folder,
+                deleted: false,
                 createdAt: Timestamp.fromDate(new Date()),
-            })
+            });
+            setPage("");
           } catch (e) {
             console.error("Error adding document: ", e);
           }
+    }
+
+    const showFolders = () => {
+        if (userFolders.length !== 0) {
+            return (
+                <select onChange={(e) => setFolder(e.target.value)}>
+                    <option value="">Not selected</option>
+                    {userFolders.map(folder => {
+                        return <option selected={folder.name === page ? "selected" : null } value={folder.name}>{folder.name}</option>
+                    })}
+                </select>
+            )
+        } else {
+            return
+        }
     }
 
     React.useEffect(() => {
@@ -69,6 +87,7 @@ const CreateModal = ({isModalOpen, setModalOpen, page}) => {
                 <input onChange={(e) => setTitle(e.target.value)} className="create-input title-input" type="text" placeholder="Note title"></input>
                 <textarea onChange={(e) => setText(e.target.value)} className="create-input create-textarea" placeholder="Note text"></textarea>
                 <input onChange={() => setImportant(true)} id="checkbox" type="checkbox"></input><label for="checkbox">This note is important</label>
+                {showFolders()}
                 <CreateButton func={handler} isDisabled={isDisabled} name={"Create new note"}/>
             </div>
         </div>
