@@ -10,6 +10,8 @@ body
   position: relative
   overflow: hidden !important
 
+
+
 .main-part
   padding: 40px
   height: 100vh
@@ -43,6 +45,7 @@ a
   display: grid
   gap: 20px
   grid-template-columns: repeat(4, 1fr)
+  margin-bottom: 120px
 
 .navlink
   text-decoration: none
@@ -91,3 +94,60 @@ a
 
     .plus
       width: 32px
+
+@media (width < 420px)
+
+  .main-part
+    padding: 20px
+    height: 100dvh
+    overflow: scroll
+
+  h1
+    font-size: 24px
+    font-style: normal
+    font-weight: 600
+    color: $dark-blue
+
+    margin: 0px
+
+  .margin-h1
+    margin-bottom: 20px
+
+  h2
+    font-size: 20px
+    font-weight: 500
+    color: $dark-blue
+
+  h3
+    margin: 0px
+
+  .notes-container
+    width: 100%
+    display: grid
+    gap: 20px
+    grid-template-columns: repeat(2, 1fr)
+    margin-bottom: 120px
+
+  .fab
+
+    position: absolute
+    bottom: 136px
+    right: 20px
+
+    display: flex
+
+    align-items: center
+
+    width: 48px
+    height: 48px
+
+    border: none
+    border-radius: 50%
+    background-color: $dark-blue
+
+    font-size: 16px
+    color: $white
+
+    box-shadow: 0px 12px 20px 0px rgba(38, 65, 116, 0.10)
+
+    z-index: 3

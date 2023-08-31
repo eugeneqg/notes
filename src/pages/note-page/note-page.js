@@ -95,7 +95,8 @@ const NotePage = ({updateNote, deleteNote, userFolders, areFoldersLoaded}) => {
                                 <label for="checkbox">Important</label>
                             </div>
                         </div>
-                        <TextButton func={handler} text={"Delete this note"} />
+                        <button className='delete-button' onClick={handler}>{window.innerWidth > 420 ? <p><Trash />  Delete</p> : <Trash color='white' /> }</button>
+
                     </div>
                 </div>
             </Row>

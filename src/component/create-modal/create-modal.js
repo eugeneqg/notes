@@ -86,8 +86,12 @@ const CreateModal = ({isModalOpen, setModalOpen, page, userFolders, setPage}) =>
                 <h1>Create a new note</h1>
                 <input onChange={(e) => setTitle(e.target.value)} className="create-input title-input" type="text" placeholder="Note title"></input>
                 <textarea onChange={(e) => setText(e.target.value)} className="create-input create-textarea" placeholder="Note text"></textarea>
-                <input onChange={() => setImportant(true)} id="checkbox" type="checkbox"></input><label for="checkbox">This note is important</label>
-                {showFolders()}
+                <div className='is-important-box'>
+                    <input onChange={() => setImportant(true)} id="checkbox" type="checkbox"></input>
+                    <label for="checkbox">Important</label>
+                </div>
+                {/* <input onChange={() => setImportant(true)} id="checkbox" type="checkbox"></input><label for="checkbox">This note is important</label> */}
+                <div className='folder-selector'>{showFolders()}</div>
                 <CreateButton func={handler} isDisabled={isDisabled} name={"Create new note"}/>
             </div>
         </div>

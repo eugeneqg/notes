@@ -1,0 +1,22 @@
+@import "../utilities/_variables"
+
+@media (width > 400px)
+
+    .folders-button
+        display: none
+
+
+@media (width < 420px)
+
+    .folder-list
+        height: 0px
+        overflow: hidden
+        transition: all 0.2s linear
+
+    .folders-button
+        display: block
+        border: none
+        background-color: $blue
+        padding: 8px 0px 8px 0px
+        transition: all 1s linear
+

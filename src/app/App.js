@@ -75,6 +75,12 @@ function App() {
     )
   }
 
+  const showFolders = () => {
+    document.querySelector(".folders-button").style.display = "none";
+    document.querySelector(".folder-list").style.height = "100dvh";
+    document.querySelector(".folder-list").style.overflow = "auto";
+  }
+
   const handler = (e) => {
     e.stopPropagation();
     setModalOpen(true);
@@ -122,9 +128,10 @@ function App() {
       {user? <Fab fab="fab" name={"New note"} func={handler}/> : null}
       {user? <Header data={data} setData={setData} logOut={logOut} input={ref}/> : null}
       <Row className="gx-0">
-        <Col md={user ? 2 : 4} className="p-0">
+        <Col md={user ? 2 : 4} className="p-0 folder-list">
           <SideMenu logOut={logOut} setModalOpen={setModalOpen} setData={setData} userFolders={userFolders} updatedFolders={updatedComponent} setUpdatedFolders={setUpdatedComponent} deleteFolder={deleteFolder} areFoldersLoaded={areFoldersLoaded}/>
         </Col>
+        <button onClick={showFolders} className="folders-button">My folders</button>
         <Col className="p-0">
           <Routes>
             <Route path="/" element={<LoginPage/>}/>

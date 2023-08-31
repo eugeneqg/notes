@@ -38,28 +38,6 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
             value = e.target.value;
         });
 
-        // document.addEventListener("mousedown", e => {
-        //     if (e.target === document.querySelector(".folder-input")) {
-        //         return
-        //     } else if (e.target === document.querySelector(".folder-button")) {
-        //         document.querySelector(".folder-button").addEventListener("click", e => {
-        //             e.preventDefault();
-        
-        //             if (value) {
-        //                 addNote(e, value);
-        //                 div.removeChild(newFolder);
-        //                 document.querySelector(".create-folder__button").style.display = "block";
-        //             } else {
-        //                 alert("You should give your folder a name");
-        //                 document.querySelector(".folder-input").style.borderColor = "red"
-        //             }
-        //         });
-        //     } else {
-        //         div.removeChild(newFolder);
-        //         document.querySelector(".create-folder__button").style.display = "block";
-        //     }
-        // })
-
         document.querySelector(".folder-button").addEventListener("click", e => {
             e.preventDefault();
 
@@ -75,6 +53,22 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
 
     }
 
+    const hideMenu = () => {
+
+        if (window.innerWidth < 420) {
+
+            setTimeout(() => {
+                document.querySelector(".folders-button").style.display = "block";
+                document.querySelector(".folders-button").style.transition = "all 1s linear";
+            }, 100)
+            document.querySelector(".folder-list").style.height = "0dvh";
+            document.querySelector(".folder-list").style.overflow = "none";
+
+        } else {
+            return
+        }
+    }
+
     const showData = () => {
         if (!areFoldersLoaded) {
             return (
@@ -84,7 +78,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
         } else {
             return userFolders?.map(folder => {
                 return (
-                    <NavLink key={folder.folderId} to={`/${folder.name}`} state={folder}><MenuButton name={folder.name} id={folder.folderId} deleteFolder={deleteFolder} custom={true}/></NavLink>
+                    <NavLink onClick={hideMenu} key={folder.folderId} to={`/${folder.name}`} state={folder}><MenuButton name={folder.name} id={folder.folderId} deleteFolder={deleteFolder} custom={true}/></NavLink>
                 )
             })
         }
@@ -111,9 +105,9 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
             <div className="buttons">
                 <div className="menu-buttons">
                     <p className="mt-3 mb-0">Folders</p>
-                    <NavLink to={"/all"}><MenuButton name={"All notes"}/></NavLink>
-                    <NavLink to={"/important"}><MenuButton name={"Important"}/></NavLink>
-                    <NavLink to={"/deleted"}><MenuButton name={"Deleted"}/></NavLink>
+                    <NavLink onClick={hideMenu} to={"/all"}><MenuButton name={"All notes"}/></NavLink>
+                    <NavLink onClick={hideMenu} to={"/important"}><MenuButton name={"Important"}/></NavLink>
+                    <NavLink onClick={hideMenu} to={"/deleted"}><MenuButton name={"Deleted"}/></NavLink>
                     {showData()}
             </div>
             <div className="create-folder">
