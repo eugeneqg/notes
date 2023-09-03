@@ -14,7 +14,6 @@ import { auth, collection, db, logout } from "../firebase";
 import { query, where, getDocs, deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { Fab } from "../component/small-components/small-components";
 import FolderPage from "../pages/folder-page/folder-page";
-import { Timestamp } from "firebase/firestore";
 import Header from "../component/header/header";
 import SearchPage from "../pages/search-page/search-page";
 import Loader from "../component/small-components/loader/loader";
@@ -29,6 +28,7 @@ function App() {
   const [areFoldersLoaded, setFoldersLoaded] = React.useState(false);
   const [updatedComponent, setUpdatedComponent] = React.useState(false);
   const [page, setPage] = React.useState("");
+  const [searchInput, setSearchInput] = React.useState("");
   const ref = React.useRef("");
   const navigate = useNavigate();
 
@@ -36,6 +36,7 @@ function App() {
     isModalOpen ? document.querySelector("body").style.overflow = "hidden" : document.querySelector("body").style.overflow = "auto";
 
     if (user) {
+      window.scrollTo(0, 0);
       (async () => {
         const filteredNotes = [];
         const folders = [];
@@ -67,7 +68,11 @@ function App() {
       redirect("/");
     }
 
-  }, [isModalOpen, user, updatedComponent, ref.current, page]);
+    if (error) {
+      alert("Oops! Something's wrong :( Try again later")
+    }
+
+  }, [isModalOpen, user, updatedComponent, ref, page, error]);
 
   if (loading) {
     return (
@@ -96,7 +101,6 @@ function App() {
   const updateNote = async (id, title, text, folder = "", important, deleted) => {
     const ref = doc(db, "notes", id);
     setUpdatedComponent(!updatedComponent);
-    console.log(id, title, text, folder, important)
     await updateDoc(ref, {
       title: title,
       text: text,
@@ -121,25 +125,25 @@ function App() {
       redirect("/");
 
 }
-
+// input={ref}
   return (
     <div>
       {isModalOpen ? <CreateModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} page={page} userFolders={userFolders}/> : null}
-      {user? <Fab fab="fab" name={"New note"} func={handler}/> : null}
-      {user? <Header data={data} setData={setData} logOut={logOut} input={ref}/> : null}
+      {user ? <Fab fab="fab" name={"New note"} func={handler}/> : null}
+      {user ? <Header data={data} setData={setData} input={searchInput} setSearchInput={setSearchInput} logOut={logOut} /> : null}
       <Row className="gx-0">
         <Col md={user ? 2 : 4} className="p-0 folder-list">
           <SideMenu logOut={logOut} setModalOpen={setModalOpen} setData={setData} userFolders={userFolders} updatedFolders={updatedComponent} setUpdatedFolders={setUpdatedComponent} deleteFolder={deleteFolder} areFoldersLoaded={areFoldersLoaded}/>
         </Col>
-        <button onClick={showFolders} className="folders-button">My folders</button>
+        {user? <button onClick={showFolders} className="folders-button">My folders</button> : null}
         <Col className="p-0">
           <Routes>
             <Route path="/" element={<LoginPage/>}/>
             <Route path="/all" element={<MainPage data={data} isDataLoaded={isDataLoaded} deleteNote={deleteNote} updatedNotes={updatedComponent} setUpdatedNotes={setUpdatedComponent} updateNote={updateNote} setPage={setPage}/>}/>
             <Route path="/important" element={<ImportantPage data={data} updateNote={updateNote} deleteNote={deleteNote}/>}/>
             <Route path="/deleted" element={<RecentlyDeleted data={data} updateNote={updateNote} deleteNote={deleteNote}/>}/>
-            <Route path="/note" element={<NotePage updateNote={updateNote} deleteNote={deleteNote} userFolders={userFolders} areFoldersLoaded={areFoldersLoaded}/>}/>
-            <Route path="/search" element={<SearchPage data={data} deleteNote={deleteNote} input={ref}/>} />
+            <Route path="/note/:id" element={<NotePage data={data} updateNote={updateNote} deleteNote={deleteNote} userFolders={userFolders} areFoldersLoaded={areFoldersLoaded} updatedComponent={updatedComponent} setUpdatedComponent={setUpdatedComponent}/>}/>
+            <Route path="/search" element={<SearchPage data={data} deleteNote={deleteNote} input={searchInput}/>} />
             {userFolders.map(folder => {
               return (
                 <Route path={folder.name} key={folder.name} element={<FolderPage folderData={folder} data={data} setPage={setPage} updateNote={updateNote} deleteNote={deleteNote}/>}/>

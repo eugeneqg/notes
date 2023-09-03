@@ -5,11 +5,10 @@ import Note from "../../component/small-components/note/note";
 
 const FolderPage = ({folderData, data, setPage, updateNote, deleteNote}) => {
 
-    const [filteredData, setFilteredData] = React.useState([]);
-
     React.useEffect(() => {
         setPage(folderData.name);
-    }, [setPage, data]);
+        console.log(folderData.name)
+    }, [setPage, data, folderData.name]);
 
     const showData = () => {
 

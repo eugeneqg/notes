@@ -1,9 +1,8 @@
 import "./login-page.sass";
 import { auth, logInWithEmailAndPassword, signInWithGoogle, registerWithEmailAndPassword } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React from "react";
-import { doc } from "firebase/firestore";
 import {CreateButton} from "../../component/small-components/small-components"
 
 const LoginPage = () => {
@@ -39,12 +38,16 @@ const LoginPage = () => {
         if (user) {
             navigate("/all");
         } else {
-            navigate("/")
+            navigate("/");
         }
-      }, [user, loading, navigate, isNew]);
+        if (error) {
+            alert("Something wrong! Try again later :(");
+        }
+      }, [user, loading, navigate, isNew, error]);
 
     return (
         <div className="login-page">
+            <h1 className="margin-h1">Welcome to Notez!</h1>
             <div className="login-page__login">
                 <div className="login-page_buttons d-flex w-100">
                     <div className="slider"></div>
@@ -57,6 +60,7 @@ const LoginPage = () => {
                 </div>
                 {isNew ? <ExistingUser email={email} setEmail={setEmail} password={password} setPassword={setPassword} logInWithEmailAndPassword={logInWithEmailAndPassword} setNew={setNew} isNew={isNew} change={change}/> : <NewUser name={name} setName={setName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} register={register} setNew={setNew} isNew={isNew} change={change}/>}
             </div>
+            <p onClick={signInWithGoogle}>Or sign in with Google</p>
         </div>
     )
 }

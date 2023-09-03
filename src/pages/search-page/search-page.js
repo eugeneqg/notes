@@ -1,9 +1,9 @@
 import "./search-page.sass";
-import { Row, Spinner } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import React from "react";
 import Note from "../../component/small-components/note/note";
 
-const SearchPage = ({data, input}) => {
+const SearchPage = ({data, input, deleteNote}) => {
 
     const [filteredData, setFilteredData] = React.useState([]);
 
@@ -11,8 +11,9 @@ const SearchPage = ({data, input}) => {
 
         (async () => {
 
-            if (input.current.length !== 0) {
-                const filtered = await data.filter(note => note.text.toLowerCase().includes(input.current.toLowerCase()) || note.title.toLowerCase().includes(input.current.toLowerCase()));
+            if (input.length !== 0) {
+                const newData = [...data]
+                const filtered = await newData.filter(note => note.text.toLowerCase().includes(input.toLowerCase()) || note.title.toLowerCase().includes(input.toLowerCase()));
                 await setFilteredData(filtered);
             }
         })();
@@ -28,7 +29,7 @@ const SearchPage = ({data, input}) => {
         } else {
             return filteredData.map(note => {
                 return (
-                    <Note title={note.title} key={note.id} text={note.text}/>
+                    <Note title={note.title} key={note.id} text={note.text} deleteNote={deleteNote}/>
                 )
             })
         }

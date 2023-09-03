@@ -1,24 +1,61 @@
 import React from "react";
 import "./header.sass";
 import { Navbar } from "react-bootstrap";
-import { BoxArrowLeft } from "react-bootstrap-icons";
+import { BoxArrowLeft, Search } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 
 
-const Header = ({logOut, input}) => {
+const Header = ({logOut, input, setSearchInput}) => {
 
     const navigate = useNavigate();
+    const [isSearchShown, setSearchShown] = React.useState(false);
+    const ref = React.useRef();
 
     const handler = async (e) => {
-        input.current = e.target.value;
+        setSearchInput(e.target.value);
         navigate("/search");
     }
+
+    const changeSearch = () => {
+        setSearchShown(true);
+    }
+
+    const showSearch = () => {
+        if (!isSearchShown) {
+            return (
+                <Search className="search-button" onClick={changeSearch} color="white"/>
+            )
+        } else {
+            return (
+                <input ref={ref} onChange={handler} value={input} className="me-5 search" placeholder="Search"></input>
+            )
+        }
+    }
+
+    React.useEffect(() => {
+
+        const listener = (e) => {
+            if (ref.current && !ref.current.contains(e.target)) {
+                setSearchShown(false);
+            }
+        }
+
+        document.addEventListener("mousedown", listener);
+        return () => document.removeEventListener("mousedown", listener);
+
+    }, [isSearchShown, ref])
 
     return (
         <Navbar className="header" expand="lg">
                 <Navbar.Brand style={{color: "white"}} href="/">NOTEZ</Navbar.Brand>
-                <input onChange={handler} value={input.current} className="me-5 search" placeholder="Search"></input>
-                <BoxArrowLeft color="white" size={24} onClick={logOut}/>
+                <div className="d-flex align-items-center gap-2">
+                    {window.innerWidth > 430 ? 
+                        <input onChange={handler} value={input} className="me-5 search" placeholder="Search"></input>
+                        :
+                        showSearch()
+                    }
+                    <BoxArrowLeft color="white" size={24} onClick={logOut}/>
+                </div>
         </Navbar>
     )
 }

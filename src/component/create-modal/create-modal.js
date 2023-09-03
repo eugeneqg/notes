@@ -31,7 +31,7 @@ const CreateModal = ({isModalOpen, setModalOpen, page, userFolders, setPage}) =>
         e.preventDefault();
 
         try {
-            const docRef = await addDoc(collection(db, "notes"), {
+            await addDoc(collection(db, "notes"), {
                 uid: user.uid,
                 title: title,
                 text: text,
@@ -57,7 +57,11 @@ const CreateModal = ({isModalOpen, setModalOpen, page, userFolders, setPage}) =>
                 </select>
             )
         } else {
-            return
+            return (
+                <select>
+                    <option value="">Not selected</option>
+                </select>
+            )
         }
     }
 
@@ -77,6 +81,8 @@ const CreateModal = ({isModalOpen, setModalOpen, page, userFolders, setPage}) =>
         document.addEventListener("click", handleClick)
         return () => document.removeEventListener("click", handleClick);
 
+         
+   // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDisabled, text, title, isModalOpen]);
 
     return (
@@ -86,12 +92,13 @@ const CreateModal = ({isModalOpen, setModalOpen, page, userFolders, setPage}) =>
                 <h1>Create a new note</h1>
                 <input onChange={(e) => setTitle(e.target.value)} className="create-input title-input" type="text" placeholder="Note title"></input>
                 <textarea onChange={(e) => setText(e.target.value)} className="create-input create-textarea" placeholder="Note text"></textarea>
-                <div className='is-important-box'>
-                    <input onChange={() => setImportant(true)} id="checkbox" type="checkbox"></input>
-                    <label for="checkbox">Important</label>
+                <div className="tools">
+                    <div className='is-important-box'>
+                        <input onChange={() => setImportant(true)} id="checkbox" type="checkbox"></input>
+                        <label for="checkbox">Important</label>
+                    </div>
+                    <div className='folder-selector'>{showFolders()}</div>
                 </div>
-                {/* <input onChange={() => setImportant(true)} id="checkbox" type="checkbox"></input><label for="checkbox">This note is important</label> */}
-                <div className='folder-selector'>{showFolders()}</div>
                 <CreateButton func={handler} isDisabled={isDisabled} name={"Create new note"}/>
             </div>
         </div>

@@ -4,23 +4,24 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import "./side-menu.sass";
 import React from "react";
-import { collection, addDoc, doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import Loader from "../small-components/loader/loader";
 
 const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logOut, deleteFolder, areFoldersLoaded}) => {
 
     const navigate = useNavigate();
-    const [user, loading, error] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
     React.useEffect(() => {
         if (!user) {
             navigate("/")
         }
-
     }, [user, navigate, userFolders]);
     
     const addNewFolder = async () => {
+        window.scrollTo(0, 0);
+        
         let value = "";
         const div = document.querySelector(".create-folder");
         const newFolder = document.createElement(`div`);
@@ -55,7 +56,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
 
     const hideMenu = () => {
 
-        if (window.innerWidth < 420) {
+        if (window.innerWidth < 430) {
 
             setTimeout(() => {
                 document.querySelector(".folders-button").style.display = "block";
@@ -89,7 +90,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
         e.preventDefault();
 
         try {
-            const docRef = await addDoc(collection(db, "folders"), {
+            await addDoc(collection(db, "folders"), {
                 uid: user.uid,
                 name: value
             });
@@ -117,7 +118,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
         </header>
         :
         <div className="side-menu-login">
-            <h1>Welcome Back!</h1>
+            <h1>Welcome to Notez!</h1>
         </div>
     )
 }

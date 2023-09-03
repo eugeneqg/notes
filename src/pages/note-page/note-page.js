@@ -4,65 +4,63 @@ import { Row } from 'react-bootstrap'
 import { ArrowLeft } from 'react-bootstrap-icons'
 import { useNavigate } from 'react-router-dom';
 import { Trash } from "react-bootstrap-icons";
-import { TextButton } from '../../component/small-components/small-components';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateState } from '../../redux/note-slice';
+import Loader from '../../component/small-components/loader/loader';
 import "./note-page.sass";
 
-const NotePage = ({updateNote, deleteNote, userFolders, areFoldersLoaded}) => {
+const NotePage = ({updateNote, deleteNote, userFolders, areFoldersLoaded, updatedComponent, setUpdatedComponent, data}) => {
 
     const {state} = useLocation();
     const navigate = useNavigate();
-    const [text, setText] = React.useState(state.text);
-    const [title, setTitle] = React.useState(state.title);
-    const [folder, setFolder] = React.useState(state.folder);
+    const noteData = useSelector(state => state.noteData.note);
+    const [text, setText] = React.useState(noteData.text);
+    const [title, setTitle] = React.useState(noteData.title);
+    const {id} = useParams();
+    const dispatch = useDispatch();
 
-    const update = async (e) => {
-        e.preventDefault();
-        if (e.target.classList.contains("input-h1")) {
-            await setTitle(e.target.value);
-            updateNote(state.id, e.target.value, text, folder, state.important, state.deleted);
-
-        } else {
-            await setText(e.target.value);
-            updateNote(state.id, title, e.target.value, folder, state.important, state.deleted);
-        }
+    const handleBlur = () => {
+        const title = document.querySelector(".input-h1").textContent;
+        const text = document.querySelector(".input-p").textContent;
+        updateNote(id, title, text, noteData.folder, noteData.important, noteData.deleted);
+        setText(title);
+        setText(text);
     }
 
-    
-
     const updateImportant = async (e) => {
-
-        updateNote(state.id, title, text, folder, !state.important, state.deleted);
+        updateNote(state.id, title, text, noteData.folder, !noteData.important, noteData.deleted);
     }
 
     const handler = async (e) => {
         
         if (!state.deleted) {
             if (window.confirm("Are you sure you want to delete this note?")) {
-            updateNote(state.id, title, text, folder, state.important, !state.deleted);
+            updateNote(id, title, text, noteData.folder, noteData.important, !noteData.deleted);
             navigate("/all");
             }
         } else {
-            await deleteNote(state.id);
-            navigate("/all");
+            await deleteNote(id);
+            navigate(-1);
         }
-    }
-
-    const resizeTextarea = () => {
-        const textarea = document.querySelector('.input-p');
-        textarea.style.height = '20px';
-        textarea.style.height = `${textarea.scrollHeight}px`;
     }
 
     const getFolders = () => {
         if (!areFoldersLoaded) {
-            return <p>loading</p>
+            return (
+                <select value="" name="folders" id="folders" onChange={updateFolder}>
+                    <option value="">No folder</option>
+                </select>
+            )
         } else {
-            return <select name="folders" id="folders" onChange={updateFolder}>
-                <option value="" selected={folder === "" ? "selected" : null}>No folder</option>
+            return (
+            <select value={noteData.folder} name="folders" id="folders" onChange={updateFolder}>
+                <option value="" selected={noteData.folder === "" ? "selected" : null}>No folder</option>
                 {userFolders.map(folder => {
-                    return <option selected={folder.name === state.folder ? "selected" : null } value={folder.name}>{folder.name}</option>
+                    return <option  key={folder.name} value={folder.name}>{folder.name}</option>
                 })};
             </select>
+            )
         }
     }
 
@@ -71,19 +69,29 @@ const NotePage = ({updateNote, deleteNote, userFolders, areFoldersLoaded}) => {
     }
 
     React.useEffect(() => {
-        resizeTextarea()
-    }, []);
+
+        if (data.length !== 0) {
+            const [note] = data.filter(note => note.noteId === id);
+            delete note.createdAt;
+            dispatch(updateState(note));
+            setText(noteData.text);
+            setTitle(noteData.title)
+        }
+
+    }, [data, id, dispatch, noteData]);
 
     return (
         <div className="main-part">
             <Row>
+                {title === "" && text === "" ? <Loader /> 
+                :
                 <div className=''>
                     <div className='note-title d-flex gap-2'>
                         <ArrowLeft onClick={() => navigate(-1)} size={40} color='#3884AE'/>
-                        <input className='input-h1' onChange={update} value={title}></input>
+                        <h1 contentEditable suppressContentEditableWarning={true} className='input-h1' onBlur={handleBlur}>{title}</h1>
                     </div>
                     <div className='note-text'>
-                        <textarea className='input-p' onChange={update} value={text}></textarea>
+                        <p contentEditable suppressContentEditableWarning={true} className='input-p' onBlur={handleBlur}>{text}</p>
                     </div>
                     <div className='tools'>
                         <div className='right-tools'>
@@ -91,14 +99,14 @@ const NotePage = ({updateNote, deleteNote, userFolders, areFoldersLoaded}) => {
                                 {getFolders()}
                             </div>
                             <div className='is-important-box'>
-                                <input defaultChecked={state.important} onChange={updateImportant} id="checkbox" type="checkbox"></input>
-                                <label for="checkbox">Important</label>
+                                <input defaultChecked={noteData.important} onChange={updateImportant} id="checkbox" type="checkbox"></input>
+                                <label htmlFor="checkbox">Important</label>
                             </div>
                         </div>
-                        <button className='delete-button' onClick={handler}>{window.innerWidth > 420 ? <p><Trash />  Delete</p> : <Trash color='white' /> }</button>
-
+                        <button className='delete-button' onSubmit={handler} onClick={handler}>{window.innerWidth > 430 ? <p><Trash />  Delete</p> : <Trash color='white' /> }</button>
                     </div>
                 </div>
+                }
             </Row>
         </div>
     )

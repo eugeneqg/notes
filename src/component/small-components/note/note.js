@@ -16,13 +16,12 @@ const Note = ({text, title, id, deleteNote, folder, important, updateNote, delet
             }
         } else {
             await deleteNote(id);
-            navigate("/all");
         }
     }
 
     return (
         <div className="note">
-            <NavLink className="navlink" to={"/note"} state={{title: title, text: text, id: id, folder: folder, important: important, deleted: deleted}}>
+            <NavLink className="navlink" to={`/note/${id}`} state={{title: title, text: text, id: id, folder: folder, important: important, deleted: deleted}}>
                 <div style={{"width": "100%", "height": "80%"}}>
                     <h2>{title.length > 15 ? title.slice(0, 15) + "..." : title}</h2>
                     <p>{text.length > 162? text.slice(0, 162) + "..." : text}</p>
