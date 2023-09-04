@@ -1,54 +1,130 @@
 @import "../../utilities/_variables"
+
+// Desktop and tablets in landscape
+
+@media screen and (min-width: 930px)
     
-.modal-background
-    position: fixed
-    width: 100%
-    height: 100vh
+    .modal-background
+        position: fixed
+        width: 100%
+        height: 100vh
 
-    display: flex
+        display: flex
 
-    background: rgba(255, 255, 255, 0.40)
-    backdrop-filter: blur(20px)
-    z-index: 4
+        background: rgba(255, 255, 255, 0.40)
+        backdrop-filter: blur(20px)
+        z-index: 4
 
-.create-modal
-    position: relative
-    display: flex
-    flex-wrap: wrap
-    align-content: center
-    gap: 20px
+    .create-modal
+        position: relative
+        display: flex
+        flex-wrap: wrap
+        align-content: center
+        gap: 20px
 
-    width: 50%
-    height: fit-content
+        width: 50%
+        height: fit-content
 
-    margin: auto
-    padding: 60px 40px 40px 40px
+        margin: auto
+        padding: 60px 40px 40px 40px
 
-    border-radius: 8px
-    background-color: $white
-    box-shadow: 0px 20px 40px 0px rgba(38, 65, 116, 0.15)
+        border-radius: 8px
+        background-color: $white
+        box-shadow: 0px 20px 40px 0px rgba(38, 65, 116, 0.15)
 
-.create-input
-    width: 100%
+    .create-input
+        width: 100%
 
-    padding: 20px
+        padding: 20px
 
-    border-radius: 8px
-    border: 2px solid rgba(0, 0, 0, 0.10)
+        border-radius: 8px
+        border: 2px solid rgba(0, 0, 0, 0.10)
 
-.create-textarea
-    min-height: 200px
-    max-height: 80%
+    .create-textarea
+        min-height: 200px
+        max-height: 80%
 
-.title-input
-    height: 60px
+    .title-input
+        height: 60px
 
-.close-button
-    position: absolute
-    top: 40px
-    right: 40px
+    .close-button
+        position: absolute
+        top: 40px
+        right: 40px
 
-@media (max-width: 430px)
+    .tools
+        gap: 20px
+
+// Tablets in portrait
+
+@media screen and (min-width: 430px) and (max-width: 1030px) and (orientation: portrait)
+
+    .modal-background
+        position: fixed
+        width: 100%
+        height: 100vh
+
+        display: flex
+
+        background: rgba(255, 255, 255, 0.40)
+        backdrop-filter: blur(20px)
+        z-index: 4
+
+    .create-modal
+        position: relative
+        display: flex
+        flex-wrap: wrap
+        align-content: center
+        gap: 20px
+
+        width: 60%
+        height: fit-content
+
+        margin: auto
+        padding: 60px 40px 40px 40px
+
+        border-radius: 8px
+        background-color: $white
+        box-shadow: 0px 20px 40px 0px rgba(38, 65, 116, 0.15)
+    
+    .tools
+        gap: 20px
+
+    .create-input
+        width: 100%
+
+        padding: 20px
+
+        border-radius: 8px
+        border: 2px solid rgba(0, 0, 0, 0.10)
+
+    .create-textarea
+        min-height: 200px
+        max-height: 80%
+
+    .title-input
+        height: 60px
+
+    .close-button
+        position: absolute
+        top: 40px
+        right: 40px
+
+
+// Mobile in portrait
+
+@media screen and (max-width: 430px) and (orientation: portrait)
+
+    .modal-background
+        position: fixed
+        width: 100%
+        height: 100vh
+
+        display: flex
+
+        background: rgba(255, 255, 255, 0.40)
+        backdrop-filter: blur(20px)
+        z-index: 4
 
     .create-modal
         position: relative
@@ -71,3 +147,78 @@
         width: 100%
         display: flex
         justify-content: space-between
+
+    .create-input
+        width: 100%
+
+        padding: 20px
+
+        border-radius: 8px
+        border: 2px solid rgba(0, 0, 0, 0.10)
+
+    .create-textarea
+        min-height: 200px
+        max-height: 80%
+
+    .title-input
+        height: 60px
+
+    .close-button
+        position: absolute
+        top: 40px
+        right: 40px
+
+// Mobile in landscape
+
+@media screen and (orientation: landscape) and (max-width: 930px)
+
+    .modal-background
+        position: fixed
+        width: 100%
+        height: 100vh
+
+        display: flex
+
+        background: rgba(255, 255, 255, 0.40)
+        backdrop-filter: blur(20px)
+        z-index: 4
+
+    .create-modal
+        position: relative
+        display: flex
+        flex-wrap: wrap
+        align-content: flex-start
+        gap: 20px
+
+        width: 80%
+        height: 80%
+        overflow: scroll
+
+        margin: auto
+        padding: 60px 40px 40px 40px
+
+        border-radius: 8px
+        background-color: $white
+        box-shadow: 0px 20px 40px 0px rgba(38, 65, 116, 0.15)
+    
+    .tools
+        gap: 20px
+
+    .create-input
+        width: 100%
+
+        padding: 20px
+
+        border-radius: 8px
+        border: 2px solid rgba(0, 0, 0, 0.10)
+
+    .create-textarea
+        height: 40%
+
+    .title-input
+        height: 40px
+
+    .close-button
+        position: absolute
+        top: 40px
+        right: 40px

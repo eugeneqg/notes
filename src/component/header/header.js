@@ -49,7 +49,7 @@ const Header = ({logOut, input, setSearchInput}) => {
         <Navbar className="header" expand="lg">
                 <Navbar.Brand style={{color: "white"}} href="/">NOTEZ</Navbar.Brand>
                 <div className="d-flex align-items-center gap-2">
-                    {window.innerWidth > 430 ? 
+                    {window.innerWidth > 768 ? 
                         <input onChange={handler} value={input} className="me-5 search" placeholder="Search"></input>
                         :
                         showSearch()

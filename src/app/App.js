@@ -29,6 +29,7 @@ function App() {
   const [updatedComponent, setUpdatedComponent] = React.useState(false);
   const [page, setPage] = React.useState("");
   const [searchInput, setSearchInput] = React.useState("");
+  const [width, setWidth] = React.useState();
   const ref = React.useRef("");
   const navigate = useNavigate();
 
@@ -72,7 +73,9 @@ function App() {
       alert("Oops! Something's wrong :( Try again later")
     }
 
-  }, [isModalOpen, user, updatedComponent, ref, page, error]);
+    setWidth(window.innerWidth);
+
+  }, [isModalOpen, user, updatedComponent, ref, page, error, width]);
 
   if (loading) {
     return (
@@ -125,15 +128,14 @@ function App() {
       redirect("/");
 
 }
-// input={ref}
   return (
     <div>
       {isModalOpen ? <CreateModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} page={page} userFolders={userFolders}/> : null}
       {user ? <Fab fab="fab" name={"New note"} func={handler}/> : null}
       {user ? <Header data={data} setData={setData} input={searchInput} setSearchInput={setSearchInput} logOut={logOut} /> : null}
       <Row className="gx-0">
-        <Col md={user ? 2 : 4} className="p-0 folder-list">
-          <SideMenu logOut={logOut} setModalOpen={setModalOpen} setData={setData} userFolders={userFolders} updatedFolders={updatedComponent} setUpdatedFolders={setUpdatedComponent} deleteFolder={deleteFolder} areFoldersLoaded={areFoldersLoaded}/>
+        <Col md={user ? 3 : 4} lg={2} className="p-0 folder-list">
+          <SideMenu logOut={logOut} setModalOpen={setModalOpen} setData={setData} userFolders={userFolders} updatedFolders={updatedComponent} setUpdatedFolders={setUpdatedComponent} deleteFolder={deleteFolder} areFoldersLoaded={areFoldersLoaded} width={width}/>
         </Col>
         {user? <button onClick={showFolders} className="folders-button">My folders</button> : null}
         <Col className="p-0">

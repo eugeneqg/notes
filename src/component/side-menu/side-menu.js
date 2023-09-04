@@ -8,7 +8,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import Loader from "../small-components/loader/loader";
 
-const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logOut, deleteFolder, areFoldersLoaded}) => {
+const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logOut, deleteFolder, areFoldersLoaded, width}) => {
 
     const navigate = useNavigate();
     const [user] = useAuthState(auth);
@@ -17,7 +17,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
         if (!user) {
             navigate("/")
         }
-    }, [user, navigate, userFolders]);
+    }, [user, navigate, userFolders, width]);
     
     const addNewFolder = async () => {
         window.scrollTo(0, 0);
@@ -56,7 +56,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
 
     const hideMenu = () => {
 
-        if (window.innerWidth < 430) {
+        if (width < 768) {
 
             setTimeout(() => {
                 document.querySelector(".folders-button").style.display = "block";
