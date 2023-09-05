@@ -1,75 +1,79 @@
 @import "../../utilities/_variables"
+
+// Desktop and tablets in landscape
+
+@media screen and (min-width: 768px)
     
-.login-page
-    display: flex
-    flex-wrap: wrap
-    align-content: center
-    justify-content: center
-    width: 100%
-    height: 100vh
+    .login-page
+        display: flex
+        flex-wrap: wrap
+        align-content: center
+        justify-content: center
+        width: 100%
+        height: 100vh
 
-    background-color: $white
+        background-color: $white
 
-.login-page__login
-    position: relative
-    display: flex
-    flex-wrap: wrap
-    align-content: center
-    gap: 20px
+    .login-page__login
+        position: relative
+        display: flex
+        flex-wrap: wrap
+        align-content: center
+        gap: 20px
 
-    width: 50%
-    height: fit-content
+        width: 65%
+        height: fit-content
 
-    margin: auto
-    padding: 40px
+        margin: auto
+        padding: 40px
 
-    border-radius: 8px
-    background-color: $white
-    box-shadow: 0px 20px 40px 0px rgba(38, 65, 116, 0.15)
+        border-radius: 8px
+        background-color: $white
+        box-shadow: 0px 20px 40px 0px rgba(38, 65, 116, 0.15)
 
-.login-page__input
-    width: 100%
+    .login-page__input
+        width: 100%
 
-    padding: 20px
+        padding: 20px
 
-    border-radius: 8px
-    border: 2px solid rgba(0, 0, 0, 0.10)
+        border-radius: 8px
+        border: 2px solid rgba(0, 0, 0, 0.10)
 
-.login-page_buttons
-    position: relative
+    .login-page_buttons
+        position: relative
 
-    background-color: $blue
-    border-radius: 8px
-    height: 40px
+        background-color: $blue
+        border-radius: 8px
+        height: 40px
 
-.slider-button
-    z-index: 2
-    color: white
-    width: 50%
-    height: 100%
+    .slider-button
+        z-index: 2
+        color: white
+        width: 50%
+        height: 100%
 
-    display: flex
-    align-items: center
-    justify-content: center
+        display: flex
+        align-items: center
+        justify-content: center
 
-    p
-        margin: 0px
+        p
+            margin: 0px
 
-.slider
-    position: absolute
-    top: 0px
-    left: 0%
+    .slider
+        position: absolute
+        top: 0px
+        left: 0%
 
-    width: 50%
-    height: 100%
-    border-radius: 8px
+        width: 50%
+        height: 100%
+        border-radius: 8px
 
-    background-color: $dark-blue
+        background-color: $dark-blue
 
-    transition: all 0.2s linear
+        transition: all 0.2s linear
 
-.mobile-welcome
-    display: none
+    .mobile-welcome
+        display: none
 
 @media (max-width: 768px)
 
@@ -82,7 +86,7 @@
         align-content: center
         justify-content: center
         width: 100%
-        height: 100vh
+        height: 100dvh
 
         background-color: $dark-blue
 
@@ -105,3 +109,44 @@
         border-radius: 8px
         background-color: $white
         box-shadow: 0px 20px 40px 0px rgba(38, 65, 116, 0.15)
+
+    .login-page__input
+        width: 100%
+
+        padding: 20px
+
+        border-radius: 8px
+        border: 2px solid rgba(0, 0, 0, 0.10)
+
+    .login-page_buttons
+        position: relative
+
+        background-color: $blue
+        border-radius: 8px
+        height: 40px
+
+    .slider-button
+        z-index: 2
+        color: white
+        width: 50%
+        height: 100%
+
+        display: flex
+        align-items: center
+        justify-content: center
+
+        p
+            margin: 0px
+
+    .slider
+        position: absolute
+        top: 0px
+        left: 0%
+
+        width: 50%
+        height: 100%
+        border-radius: 8px
+
+        background-color: $dark-blue
+
+        transition: all 0.2s linear

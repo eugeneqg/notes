@@ -37,7 +37,7 @@ function App() {
     isModalOpen ? document.querySelector("body").style.overflow = "hidden" : document.querySelector("body").style.overflow = "auto";
 
     if (user) {
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
       (async () => {
         const filteredNotes = [];
         const folders = [];
@@ -84,6 +84,7 @@ function App() {
   }
 
   const showFolders = () => {
+    document.body.style.position = "fixed";
     document.querySelector(".folders-button").style.display = "none";
     document.querySelector(".folder-list").style.height = "100dvh";
     document.querySelector(".folder-list").style.overflow = "auto";
@@ -134,7 +135,7 @@ function App() {
       {user ? <Fab fab="fab" name={"New note"} func={handler}/> : null}
       {user ? <Header data={data} setData={setData} input={searchInput} setSearchInput={setSearchInput} logOut={logOut} /> : null}
       <Row className="gx-0">
-        <Col md={user ? 3 : 4} lg={2} className="p-0 folder-list">
+        <Col md={user ? 3 : 4} lg={user ? 2 : 4} className="p-0 folder-list">
           <SideMenu logOut={logOut} setModalOpen={setModalOpen} setData={setData} userFolders={userFolders} updatedFolders={updatedComponent} setUpdatedFolders={setUpdatedComponent} deleteFolder={deleteFolder} areFoldersLoaded={areFoldersLoaded} width={width}/>
         </Col>
         {user? <button onClick={showFolders} className="folders-button">My folders</button> : null}

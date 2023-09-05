@@ -95,7 +95,7 @@ a
     .plus
       width: 32px
 
-@media (max-width: 768px)
+@media (max-width: 800px)
 
   .main-part
     padding: 20px
@@ -151,3 +151,11 @@ a
     box-shadow: 0px 12px 20px 0px rgba(38, 65, 116, 0.10)
 
     z-index: 3
+
+@media screen and (min-width: 800px) and (max-width: 1200px)
+  .notes-container
+    width: 100%
+    display: grid
+    gap: 20px
+    grid-template-columns: repeat(3, 1fr)
+    margin-bottom: 120px

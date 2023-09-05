@@ -20,7 +20,6 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
     }, [user, navigate, userFolders, width]);
     
     const addNewFolder = async () => {
-        window.scrollTo(0, 0);
         
         let value = "";
         const div = document.querySelector(".create-folder");
@@ -39,6 +38,10 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
             value = e.target.value;
         });
 
+        document.querySelector(".folder-input").addEventListener("blur", e => {
+            window.scrollTo(0,0);
+        });
+
         document.querySelector(".folder-button").addEventListener("click", e => {
             e.preventDefault();
 
@@ -46,6 +49,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
                 addNote(e, value);
                 div.removeChild(newFolder);
                 document.querySelector(".create-folder__button").style.display = "block";
+                window.scrollTo(0,0);
             } else {
                 alert("You should give your folder a name");
                 document.querySelector(".folder-input").style.borderColor = "red"
@@ -55,6 +59,8 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
     }
 
     const hideMenu = () => {
+
+        document.body.style.position = "relative";
 
         if (width < 768) {
 
@@ -102,7 +108,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
     }
 
     return (
-        user ? <header className="side-menu">
+        user ? <div className="side-menu">
             <div className="buttons">
                 <div className="menu-buttons">
                     <p className="mt-3 mb-0">Folders</p>
@@ -115,7 +121,7 @@ const SideMenu = ({setData, userFolders, updatedFolders, setUpdatedFolders, logO
                 <button onClick={addNewFolder} className="create-folder__button">New folder</button>
             </div>
             </div>
-        </header>
+        </div>
         :
         <div className="side-menu-login">
             <h1>Welcome to Notez!</h1>
