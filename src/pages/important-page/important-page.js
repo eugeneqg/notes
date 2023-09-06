@@ -10,7 +10,7 @@ const ImportantPage = ({data, updateNote}) => {
     React.useEffect(() => {
 
         (async () => {
-            const filtered = data.filter(note => note.important === true);
+            const filtered = data.filter(note => note.important === true && note.deleted !== true);
             setFilteredData(filtered);
         })()
 
